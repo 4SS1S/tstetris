@@ -11,7 +11,7 @@ function App() {
       return;
     }
 
-    new Game(canvasRef.current);
+    new Game().boot(canvasRef.current);
   }, [])
 
   return (
