@@ -1,3 +1,19 @@
+export function drawDecorator() {
+  return function draw(
+    target: any,
+    propertyKey: string,
+    descriptor?: PropertyDescriptor
+  ) {
+    window.requestAnimationFrame(() => {
+      console.log('repaint', {propertyKey})
+
+      setTimeout(() => {
+        target[propertyKey]();
+      }, 60 * 12)
+    })
+  }
+}
+
 export default class Canvas {
   private canvas!: HTMLCanvasElement;
   private ctx!: CanvasRenderingContext2D;
@@ -11,6 +27,8 @@ export default class Canvas {
 
     this.setCanvas(canvas as HTMLCanvasElement)
     this.setContext(canvas)
+
+    this.Render();
   }
 
   getCanvas(): HTMLCanvasElement {
@@ -36,5 +54,31 @@ export default class Canvas {
 
     this.ctx.fillStyle = "#000";
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+  }
+
+  @drawDecorator()
+  draw() {
+    console.log('ok')
+
+    setTimeout(() => {
+      try {
+        this.Render();
+      } catch(err) {
+        console.log(err)
+      }
+    }, 600)
+  }
+
+  onDraw(callback?: Function) {
+    callback && callback();
+
+    setTimeout(() => {
+      this.draw()
+    }, 60 * 12)
+  }
+
+  @drawDecorator()
+  Render() {
+    this.onDraw(this.draw);
   }
 }

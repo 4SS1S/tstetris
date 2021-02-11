@@ -1,19 +1,19 @@
 import Canvas from './canvas'
 
-export default class Level {
+export default class Level extends Canvas {
   constructor() {
-    new Canvas().clearscreen();
+    super();
 
-    window.requestAnimationFrame(this.draw)
+    this.clearscreen();
+  }
+
+  drawLevel() {
+    this.draw();
   }
 
   loadLevel(level: Newable<any>) {
-    return new level(this);
-  }
+    this.drawLevel()
 
-  draw() {
-    setTimeout(() => {
-      console.log('ok')
-    }, 300)
+    return new level(this);
   }
 }
