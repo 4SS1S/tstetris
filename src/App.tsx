@@ -1,7 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import './App.css';
+import SplashScreen from './levels/splahscreen';
 
 import Game from './scripts'
+import Level from './scripts/level';
 
 function App() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -11,7 +13,8 @@ function App() {
       return;
     }
 
-    new Game().boot(canvasRef.current);
+    const game = new Game();
+    game.loadLevel(SplashScreen)
   }, [])
 
   return (
